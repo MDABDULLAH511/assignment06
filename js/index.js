@@ -1,3 +1,4 @@
+let addToCartItem = [];
 // Category Active Button Style (RemoveActive)
 const removeActive = () => {
     const categoryBtn = document.querySelectorAll(".category-btn");
@@ -16,8 +17,6 @@ const manageSpinner = (status) => {
     }
 }
 
-
-
 // Load All Categories Button Function
 const loadCategories = () => {
     const url = "https://openapi.programming-hero.com/api/categories";
@@ -25,7 +24,6 @@ const loadCategories = () => {
         .then(res => res.json())
         .then(Categorie => displayCategories(Categorie.categories));
 };
-
 
 // Display All Categories Button Function
 const displayCategories = (categories) => {
@@ -46,12 +44,12 @@ const displayCategories = (categories) => {
         categoriesContainer.append(categoriesDiv);
     });
 };
-loadCategories();
-
-
 
 // Load All Trees / Plants Function
 const loadAllTrees = () => {
+    removeActive() //remove all active class
+    document.getElementById("allcategoryBtn").classList.add("active"); // Set "All Trees" active
+
     manageSpinner(true);
     const url = "https://openapi.programming-hero.com/api/plants";
     fetch(url)
@@ -75,9 +73,6 @@ const loadTreeByCategory = (id) => {
 };
 
 
-// Deceler Total Amount for Add to cart Part
-let totalAmount = 0;
-
 // Display All Trees / Plants and Display Trees / Plants by category Function
 const displayTrees = (trees) => {
     //01. Get the container
@@ -93,72 +88,101 @@ const displayTrees = (trees) => {
 
         const treesCart = document.createElement("div");
         treesCart.innerHTML = `
-                <div class=" space-y-4 bg-white rounded-[16px] p-4 h-full">
-                            <!-- Trees Item Images -->
-                            <div class="">
-                                <img src="${tree.image}" class="w-full h-[200px] bg-[#EDEDED] rounded-[8px]">
-                            </div>
-                            <!-- Trees Item Content -->
-                            <div>
-                                <h4 id="tree-details" onclick="treeDetailsHandler(${tree.id})" class="font-semibold mb-1 cursor-pointer">${tree.name}</h4>
+                <div id="${tree.id}" class=" bg-white rounded-[16px] p-4 h-full">
+                            
+                                <img src="${tree.image}" class="w-full h-[200px] bg-[#EDEDED] rounded-[8px] mb-3">
+
+                                <h4 onclick="treeDetailsHandler(${tree.id})" class="font-semibold mb-1 cursor-pointer">${tree.name}</h4>
                                 <p>${shortDescription}</p>
-                            </div>
+                            
                             <!-- Trees Item Category and Price -->
-                            <div class="flex justify-between items-center">
+                            <div class="flex justify-between items-center my-3">
                                 <p class="bg-[#DCFCE7] px-3 py-1 rounded-full text-[#15803D]">${tree.category}</p>
-                                <p>৳${tree.price}</p>
+                                <p >৳${tree.price}</p>
                             </div>
 
-                            <div>
+                            
                                 <button  id= "add-to-cart-item-(${tree.id})"
                                     class="bg-[#15803D] py-3 px-5 rounded-full text-white font-medium cursor-pointer w-full hover:bg-[#0b5c28] duration-300">
                                     Add to Cart</button>
-                            </div>
+                            
                 </div>
         `;
         //03. Append Element into Container 
         treesContainer.append(treesCart);
-
-        // Add To Cart Button Functiuonality
-        // add to cart btn click event handler
-        const addToCartItem = document.getElementById(`add-to-cart-item-(${tree.id})`).addEventListener('click', () => {
-            // jodi name er sathe tree thake tahole ok, Otherwise tree jog kora hobe 
-            const treeNames = tree.name.includes("Tree") ? tree.name : `${tree.name} Tree`;
-
-            alert(`🌱 ${treeNames} has been added to your Cart.`);
-
-            // Show Add To Cart 
-            const addToCartContainer = document.getElementById("add-to-cart-container");
-            // addToCartContainer.innerHTML = "";
-            const cartItemDiv = document.createElement("div");
-            cartItemDiv.innerHTML = `
-                            <div class="bg-[#F0FDF4] py-2 px-3 rounded-[8px] flex justify-between items-center">
-                                <div>
-                                    <h4 class="font-semibold mb-1">${tree.name}</h4>
-                                    <p>৳${tree.price}</p>
-                                </div>
-
-                                <div class="text-red-600">
-                                   <button id="remove-tree-(${tree.id})" class="cursor-pointer"> <i class="fa-solid fa-xmark"></i></button>
-                                </div>
-                            </div>
-                            `;
-            // append to Chiled div
-            addToCartContainer.append(cartItemDiv);
-
-            // Calculation
-            const treePrice = tree.price;
-            totalAmount = totalAmount + treePrice;
-            document.getElementById("total-amount").innerText = totalAmount;
-
-        });
-
     });
     manageSpinner(false);
 };
-loadAllTrees();
-loadTreeByCategory();
 
+
+loadCategories();
+loadAllTrees();
+// loadTreeByCategory();
+
+
+
+// Load Add to cart Item functionality
+const treesContainer = document.getElementById("trees-container");
+treesContainer.addEventListener('click', (e) => {
+    if (e.target.innerText === 'Add to Cart') {
+        handleAddToCart(e)
+    };
+});
+
+const handleAddToCart = (e) => {
+    const treeName = e.target.parentNode.children[1].innerText;
+    const treeId = e.target.parentNode.id;
+    const treePrice = parseInt(
+        e.target.parentNode.children[3].children[1].innerText.replace("৳", "")
+    );
+
+    // Add "Tree" if not in th name name
+    const treeNames = treeName.includes("Tree") ? treeName : `${treeName} Tree`;
+
+    // Alert 
+    alert(`🌱 ${treeNames} has been added to your Cart.`);
+
+    addToCartItem.push({
+        treeName: treeName,
+        treeId: treeId,
+        treePrice: treePrice,
+    });
+
+    displayAddToCartItem(addToCartItem);
+};
+
+// Display Add to cart Item
+const displayAddToCartItem = (treeItem) => {
+    const addToCartContainer = document.getElementById("add-to-cart-container");
+    addToCartContainer.innerHTML = "";
+    let totalAmount = 0;
+
+    treeItem.forEach(item => {
+        addToCartContainer.innerHTML += `
+            <div class="bg-[#F0FDF4] py-2 px-3 rounded-[8px] flex justify-between items-center">
+                <div>
+                    <h4 class="font-semibold mb-1">${item.treeName}</h4>
+                    <p>৳${item.treePrice}</p>
+                </div>
+                <div class="text-red-600">
+                   <button onclick= "removeTreeHandler('${item.treeId}')" class="cursor-pointer"> 
+                       <i class="fa-solid fa-xmark"></i>
+                   </button>
+                </div>
+            </div>
+        `;
+
+        totalAmount += item.treePrice;
+    });
+
+    document.getElementById("total-amount").innerText = `৳ ${totalAmount}`;
+};
+
+// Remove From add to cart Item
+const removeTreeHandler = (treeId) => {
+    addToCartItem = addToCartItem.filter(item => item.treeId !== treeId);
+    displayAddToCartItem(addToCartItem);
+}
 
 //Load Trees Details (For Modal)
 const treeDetailsHandler = async (id) => {
@@ -192,6 +216,3 @@ const displayTreeDetails = (trees) => {
 `;
     document.getElementById("treeDetailsModal").showModal();
 }
-
-
-
