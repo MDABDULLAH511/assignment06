@@ -100,22 +100,29 @@
                 <h2 class="text-[26px] md:text-[32px] font-semibold capitalize text-center">Choose Your Trees</h2>
             </div>
 
+            <!-- 01.All Categories / 02.All trees (Spinner) / 03.Cart Item -->
             <div class="grid md:grid-cols-12 gap-[30px]">
+
                 <!--All Categories -->
                 <div class="md:col-span-2 space-y-4">
                     <div>
                         <h3 class="text-[20px] font-semibold">Categories</h3>
                     </div>
                     <!-- All Categories Container -->
-                    <div id="categories-container" class="flex flex-wrap md:flex-col gap-2 md:gap-1">
+                    <div class="flex flex-wrap md:flex-col gap-2 md:gap-1">
                         <!-- All Categories name show using JS -->
-                        <!-- <div id="categories-container" class="">
+                        <div class="flex flex-col">
+                            <button onclick="loadAllTrees()"
+                                class="category-btn py-2 px-3 text-[#1F2937] rounded-[4px] text-start w-full bg-[#15803D]/10 md:bg-transparent hover:bg-[#15803D]/70 hover:text-white duration-300 cursor-pointer">
+                                All Trees </button>
+                        </div>
+                        <div id="categories-container" class="flex flex-wrap md:flex-col gap-2 md:gap-1">
 
-                        </div> -->
+                        </div>
                     </div>
                 </div>
 
-                <!-- All trees -->
+                <!-- All trees and Spinner-->
                 <div class="md:col-span-8 ">
                     <!-- Spinner Setup -->
                     <div id="spinner" class="hidden text-center p-10">
@@ -135,26 +142,10 @@
                     </div>
 
                     <div class="space-y-2">
-                        <!-- Added item to cart -->
-                        <div class="bg-[#F0FDF4] py-2 px-3 rounded-[8px] flex justify-between items-center">
-                            <div>
-                                <h4 class="font-semibold mb-1">Mango Tree</h4>
-                                <p>৳500 x 1</p>
-                            </div>
+                        <!-- cart item -->
+                        <div id="add-to-cart-container" class="space-y-2">
+                            <!-- cart Item Div Show using js -->
 
-                            <div>
-                                <i class="fa-solid fa-xmark"></i>
-                            </div>
-                        </div>
-                        <div class="bg-[#F0FDF4] py-2 px-3 rounded-[8px] flex justify-between items-center">
-                            <div>
-                                <h4 class="font-semibold mb-1">Guava Tree</h4>
-                                <p>৳700 x 2</p>
-                            </div>
-
-                            <div>
-                                <i class="fa-solid fa-xmark"></i>
-                            </div>
                         </div>
 
                         <!-- Underline After cart -->
@@ -164,12 +155,11 @@
                         <!-- Total Amount of cart -->
                         <div class="flex justify-between items-center">
                             <h4 class="font-semibold mb-1">Total:</h4>
-                            <h4 class="font-semibold mb-1">৳1500</h4>
+                            <h4 id="total-amount" class="font-semibold mb-1">৳0</h4>
                         </div>
                     </div>
                 </div>
             </div>
-
         </section>
 
         <!-- About the Campaign Part Start here -->
@@ -227,22 +217,42 @@
                 <h2 class="text-[26px] md:text-[32px] text-white font-semibold capitalize text-center">Plant a Tree
                     Today</h2>
             </div>
-
+            <!-- Form -->
             <div class="md:w-4/12 mx-auto bg-[#15803D] rounded-[12px] p-5 md:p-10">
                 <input type="text" placeholder="Your Name"
                     class="input w-full focus:outline-none focus:border-none mb-3" />
                 <input type="email" placeholder="Your Email Address"
                     class="input w-full focus:outline-none focus:border-none mb-3" />
-                <select class="select w-full focus:outline-none focus:border-none  mb-3">
+                <select class="select w-full focus:outline-none focus:border-none   mb-3">
                     <option disabled selected>Number of Trees</option>
-                    <option>10 trees</option>
-                    <option>30 trees</option>
-                    <option>5 trees</option>
+                    <option>1 trees -- $5</option>
+                    <option>5 trees -- $20</option>
+                    <option>10 trees -- $40</option>
                 </select>
                 <button
                     class="bg-[#FACC15] py-3 px-5 rounded-full text-[#15803D] font-medium hover:bg-[#ffffff]  duration-300 cursor-pointer w-full">
                     Donate Now</button>
             </div>
+        </section>
+
+        <!-- Trees Details Modal Part  -->
+        <section>
+            <!-- Modal -->
+            <dialog id="treeDetailsModal" class="modal">
+                <div class="modal-box ">
+                    <!-- Close button -- using onlick function -->
+                    <button onclick="treeDetailsModal.close()"
+                        class="bg-[#DCFCE7] h-12 w-12 rounded-full text-[18px] text-black font-bold hover:bg-[#15803D] hover:text-white duration-300  absolute right-2 top-3 cursor-pointer">✕</button>
+
+                    <div id="tree-details-container">
+                        <!-- tree details show using js -->
+                    </div>
+                </div>
+                <!-- backdrop -- Close the Modal by clicking anywhere on the screen -->
+                <form method="dialog" class="modal-backdrop cursor-default">
+                    <button class="cursor-default"></button>
+                </form>
+            </dialog>
         </section>
     </main>
 

@@ -6,3 +6,8 @@
     background-color: #15803D;
     color: #ffffff;
 }
+
+select:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}

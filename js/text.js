@@ -75,8 +75,6 @@ const loadTreeByCategory = (id) => {
 };
 
 
-// Deceler Total Amount for Add to cart Part
-let totalAmount = 0;
 
 // Display All Trees / Plants and Display Trees / Plants by category Function
 const displayTrees = (trees) => {
@@ -86,7 +84,7 @@ const displayTrees = (trees) => {
 
     trees.forEach(tree => {
 
-        // Limit description to 18 words 
+        // Limit description to 18 words
         const words = tree.description.split(" "); // Every single word colleted from Description using split
         const words20 = words.slice(0, 18).join(" "); // slice baboher kore 0 theeke 18 porjonto word alada korlam and join baboher kore tader k string a convert kora holo
         const shortDescription = words20 + (words.length > 18 ? "..." : " ");
@@ -110,7 +108,7 @@ const displayTrees = (trees) => {
                             </div>
 
                             <div>
-                                <button  id= "add-to-cart-item-(${tree.id})"
+                                <button onclick = "addToCartBtnHandler()" id= "add-to-cart-item-(${tree.id})"
                                     class="bg-[#15803D] py-3 px-5 rounded-full text-white font-medium cursor-pointer w-full hover:bg-[#0b5c28] duration-300">
                                     Add to Cart</button>
                             </div>
@@ -119,10 +117,12 @@ const displayTrees = (trees) => {
         //03. Append Element into Container 
         treesContainer.append(treesCart);
 
+
+        const totalAmount = 0;
         // Add To Cart Button Functiuonality
         // add to cart btn click event handler
         const addToCartItem = document.getElementById(`add-to-cart-item-(${tree.id})`).addEventListener('click', () => {
-            // jodi name er sathe tree thake tahole ok, Otherwise tree jog kora hobe 
+            // jodi name er sathe tree thake tahole ok, Otherwise tree jog kore daw
             const treeNames = tree.name.includes("Tree") ? tree.name : `${tree.name} Tree`;
 
             alert(`🌱 ${treeNames} has been added to your Cart.`);
@@ -130,6 +130,7 @@ const displayTrees = (trees) => {
             // Show Add To Cart 
             const addToCartContainer = document.getElementById("add-to-cart-container");
             // addToCartContainer.innerHTML = "";
+
             const cartItemDiv = document.createElement("div");
             cartItemDiv.innerHTML = `
                             <div class="bg-[#F0FDF4] py-2 px-3 rounded-[8px] flex justify-between items-center">
@@ -139,20 +140,18 @@ const displayTrees = (trees) => {
                                 </div>
 
                                 <div class="text-red-600">
-                                   <button id="remove-tree-(${tree.id})" class="cursor-pointer"> <i class="fa-solid fa-xmark"></i></button>
+                                    <i class="fa-solid fa-xmark"></i>
                                 </div>
                             </div>
                             `;
-            // append to Chiled div
+
             addToCartContainer.append(cartItemDiv);
 
             // Calculation
             const treePrice = tree.price;
             totalAmount = totalAmount + treePrice;
             document.getElementById("total-amount").innerText = totalAmount;
-
         });
-
     });
     manageSpinner(false);
 };
@@ -165,7 +164,7 @@ const treeDetailsHandler = async (id) => {
     const url = `https://openapi.programming-hero.com/api/plant/${id}`;
     // fetch(url)
     // .then(resp => resp.json())
-    // .then(data => displayTreeDetails(data.plants));
+    // .then(data => console.log(data.plants));
     const res = await fetch(url);
     const details = await res.json();
     displayTreeDetails(details.plants)
@@ -192,6 +191,28 @@ const displayTreeDetails = (trees) => {
 `;
     document.getElementById("treeDetailsModal").showModal();
 }
+
+
+
+
+
+
+// // Load All Trees
+// const addToCartBtnHandler = () => {
+//     const url = "https://openapi.programming-hero.com/api/plants";
+//     fetch(url)
+//         .then(res => res.json())
+//         .then(plants => addToCart(plants.plants));
+// }
+
+// // const addToCart = (tress) => {
+
+// //     tress.forEach(tree => {
+// //         const addToCartItem = document.getElementById(`add-to-cart-item-(${tree.id})`).addEventListener('click', () => {
+// //             console.log(tree.id);
+// //         });
+// //     });
+// // }
 
 
 
