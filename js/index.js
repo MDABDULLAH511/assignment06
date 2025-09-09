@@ -90,7 +90,7 @@ const displayTrees = (trees) => {
         treesCart.innerHTML = `
                 <div id="${tree.id}" class=" bg-white rounded-[16px] p-4 h-full">
                             
-                                <img src="${tree.image}" class="w-full h-[200px] bg-[#EDEDED] rounded-[8px] mb-3">
+                                <img src="${tree.image}" class="w-full h-[200px] bg-[#EDEDED] rounded-[8px] mb-3 object-cover object-center">
 
                                 <h4 onclick="treeDetailsHandler(${tree.id})" class="font-semibold mb-1 cursor-pointer">${tree.name}</h4>
                                 <p>${shortDescription}</p>
@@ -143,6 +143,7 @@ const handleAddToCart = (e) => {
     alert(`🌱 ${treeNames} has been added to your Cart.`);
 
     addToCartItem.push({
+        uniqueId: Date.now() + Math.random(),
         treeName: treeName,
         treeId: treeId,
         treePrice: treePrice,
@@ -165,7 +166,7 @@ const displayAddToCartItem = (treeItem) => {
                     <p>৳${item.treePrice}</p>
                 </div>
                 <div class="text-red-600">
-                   <button onclick= "removeTreeHandler('${item.treeId}')" class="cursor-pointer"> 
+                   <button onclick= "removeTreeHandler(${item.uniqueId})" class="cursor-pointer"> 
                        <i class="fa-solid fa-xmark"></i>
                    </button>
                 </div>
@@ -176,11 +177,15 @@ const displayAddToCartItem = (treeItem) => {
     });
 
     document.getElementById("total-amount").innerText = `৳ ${totalAmount}`;
+
+    //Cart Item Count Display
+    const cartItemCount = document.getElementById("cartItemCount");
+    cartItemCount.innerText = addToCartItem.length;
 };
 
 // Remove From add to cart Item
-const removeTreeHandler = (treeId) => {
-    addToCartItem = addToCartItem.filter(item => item.treeId !== treeId);
+const removeTreeHandler = (uniqueId) => {
+    addToCartItem = addToCartItem.filter(item => item.uniqueId !== uniqueId);
     displayAddToCartItem(addToCartItem);
 }
 
@@ -203,7 +208,7 @@ const displayTreeDetails = (trees) => {
                         <h4 class="font-semibold text-[22px] mb-3">${trees.name}</h4>
 
                         <!-- Trees Item Images -->
-                        <img src="${trees.image}" class="w-full h-[300px] bg-[#EDEDED] rounded-[8px] mb-3">
+                        <img src="${trees.image}" class="w-full h-[300px] bg-[#EDEDED] rounded-[8px] mb-3 object-cover object-center">
 
                         <!-- Trees Item Category -->
                         <p class="font-semibold mb-2"> Category: ${trees.category}</p>

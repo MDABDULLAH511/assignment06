@@ -51,7 +51,7 @@
                     </ul>
                 </div>
 
-                <a class="text-[18px] md:text-[24px] font-bold text-white">Green Earth</a>
+                <a class="text-[18px] md:text-[24px] font-bold text-white cursor-pointer">Green Earth</a>
             </div>
             <!-- Nav Menu -->
             <div class="navbar-center hidden lg:flex">
@@ -137,8 +137,17 @@
 
                 <!-- Cart Item -->
                 <div class="md:col-span-2 space-y-4 bg-white rounded-[16px] p-4 ">
-                    <div>
+                    <!-- add to cart Header and item count -->
+                    <div class="flex justify-between items-center pb-2 border-b-1 border-gray-200 ">
                         <h3 class="text-[20px] font-semibold">Your Cart</h3>
+
+                        <div class="flex justify-end items-center relative w-[35px]">
+                            <img src="assets/bag.png" alt="" class="w-[35px] ">
+                            <h3 id="cartItemCount"
+                                class="text-white px-2 font-semibold absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mt-[4px]">
+                                0
+                            </h3>
+                        </div>
                     </div>
 
                     <div class="space-y-2">
@@ -151,6 +160,7 @@
                         <div>
                             <span class="h-[2px] w-full bg-[#1F2937]/25 block"></span>
                         </div>
+
                         <!-- Total Amount of cart -->
                         <div class="flex justify-between items-center">
                             <h4 class="font-semibold mb-1">Total:</h4>
@@ -194,15 +204,15 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-3 md:gap-10">
-                <div class="bg-white rounded-[12px] p-10 text-center">
+                <div class="bg-white rounded-[12px] p-10 text-center hover:bg-[#c9f8dc] hover:shadow-xl duration-300">
                     <h2 class="text-[32px] text-[#15803D] font-semibold">500K+</h2>
                     <p>Trees Planted</p>
                 </div>
-                <div class="bg-white rounded-[12px] p-10 text-center">
+                <div class="bg-white rounded-[12px] p-10 text-center hover:bg-[#c9f8dc] hover:shadow-xl duration-300">
                     <h2 class="text-[32px] text-[#15803D] font-semibold">120+</h2>
                     <p>Communities Involved</p>
                 </div>
-                <div class="bg-white rounded-[12px] p-10 text-center">
+                <div class="bg-white rounded-[12px] p-10 text-center hover:bg-[#c9f8dc] hover:shadow-xl duration-300">
                     <h2 class="text-[32px] text-[#15803D] font-semibold">30+</h2>
                     <p>Countries Reached</p>
                 </div>
@@ -257,7 +267,7 @@
 
     <!-- Footer part Start Here -->
     <section class="bg-[#14532D] px-[10px] md:px-[80px] py-[24px] text-center text-white">
-        <p>© 2025 Green Earth. All Rights Reserved.</p>
+        <p>© 2025 Green Earth. All Rights Reserved. Develop by Abdullah.</p>
     </section>
 
     <script src="js/index.js"></script>
